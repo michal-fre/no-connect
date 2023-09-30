@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 #
 
+# Check if our requirements are met
+function exists() { command -v "$1" >/dev/null 2>&1 ; }
+if ! exists curl && exists egrep && exists grep && exists ipset && exists iptables && exists sed && exists sort && exists wc && exists iprange ; then
+  echo >&2 "Error: searching PATH fails to find executables among: curl egrep grep ipset iptables sed sort wc"
+  exit 1
+fi
+
 
 
 if [ ! -d /usr/local/sbin/no-connect ] ; then  
@@ -24,4 +31,9 @@ curl -v -z /etc/no-connect/ipset-allow.conf -o /etc/no-connect/ipset-allow.conf 
 curl -v -z /etc/no-connect/ipset-allow-custom.conf -o /etc/no-connect/ipset-allow-custom.conf  https://raw.githubusercontent.com/michal-fre/no-connect/master/ipset-allow-custom.conf
 curl -v -z /etc/no-connect/ipset-block.conf -o /etc/no-connect/ipset-block.conf  https://raw.githubusercontent.com/michal-fre/no-connect/master/ipset-block.conf
 curl -v -z /etc/no-connect/ipset-block-custom.conf -o /etc/no-connect/ipset-block-custom.conf https://raw.githubusercontent.com/michal-fre/no-connect/master/ipset-block-custom.conf
+curl -v -z /usr/local/sbin/no-connect/no-connect-run.sh -o /usr/local/sbin/no-connect/no-connect-run.sh https://raw.githubusercontent.com/michal-fre/no-connect/master/no-connect-run.sh 
+chmod +x /usr/local/sbin/no-connect/no-connect-run.sh
+
+
+
 
